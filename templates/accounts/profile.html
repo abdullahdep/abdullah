@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - {{ user.username }}{% endblock %}
+
+{% block content %}
+    <h2>Your Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in u_form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% for field in p_form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+{% endblock %}
+

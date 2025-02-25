@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}My Data{% endblock %}
+
+{% block content %}
+    <h2>My Data</h2>
+    <a href="{% url 'add_data' %}" class="btn btn-primary mb-3">Add New Data</a>
+    
+    <h3>My Uploaded Data</h3>
+    {% if user_data %}
+        <ul class="list-group">
+        {% for data in user_data %}
+            <li class="list-group-item">
+                <h4>{{ data.title }}</h4>
+                <p>{{ data.content|truncatewords:20 }}</p>
+                <div>
+                    <a href="{% url 'edit_data' data.pk %}" class="btn btn-sm btn-info">Edit</a>
+                    <a href="{% url 'delete_data' data.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    {% if data.file %}
+                        <a href="{% url 'download_data' data.pk %}" class="btn btn-sm btn-success">Download</a>
+                    {% endif %}
+                    {% if not user.userprofile.is_child_account %}
+                        <a href="{% url 'share_data' data.pk %}" class="btn btn-sm btn-secondary">Share</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't uploaded any data yet.</p>
+    {% endif %}
+
+    {% if shared_data %}
+        <h3 class="mt-4">Shared Data</h3>
+        <ul class="list-group">
+        {% for shared in shared_data %}
+            <li class="list-group-item">
+                <h4>{{ shared.parent_data.title }}</h4>
+                <p>{{ shared.parent_data.content|truncatewords:20 }}</p>
+                <div>
+                    {% if shared.parent_data.file %}
+                        <a href="{% url 'download_data' shared.parent_data.pk %}" class="btn btn-sm btn-success">Download</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+

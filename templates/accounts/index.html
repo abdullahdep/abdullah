@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Forensics{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Forensics</h1>
+    <p>This is the index page, accessible to all users.</p>
+    {% if user.is_authenticated %}
+        <p>You are logged in as {{ user.username }}. <a href="{% url 'home' %}">Go to your home page</a>.</p>
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'signup' %}">sign up</a> to access your personal data.</p>
+    {% endif %}
+{% endblock %}
+

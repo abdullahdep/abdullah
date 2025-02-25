@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - {{ user.username }}{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>This is your personal home page.</p>
+    <a href="{% url 'data_list' %}" class="btn btn-primary">View My Data</a>
+    {% if not user.userprofile.is_child_account %}
+        <a href="{% url 'create_child_account' %}" class="btn btn-secondary">Create Child Account</a>
+    {% endif %}
+{% endblock %}
+
